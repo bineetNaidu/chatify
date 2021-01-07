@@ -8,6 +8,7 @@ import helmet from 'helmet';
 import path from 'path';
 import logger from 'morgan';
 import ConnectDB from './configs/database';
+import RootAPIRoutes from './api/routes';
 
 dotenv.config();
 const DEV = process.env.NODE_ENV !== 'production';
@@ -21,11 +22,7 @@ app.use(logger('dev'));
 app.use(cors());
 app.use(helmet());
 
-app.get('/', (req, res) => {
-  res.json({
-    hello: 'World',
-  });
-});
+app.use(RootAPIRoutes);
 
 // Serve static assets if in production
 if (!DEV) {
