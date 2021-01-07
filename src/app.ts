@@ -1,15 +1,20 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 import express from 'express';
 import http from 'http';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
+import ConnectDB from './configs/database';
 
 dotenv.config();
 const DEV = process.env.NODE_ENV !== 'production';
 
 const app = express();
 const server = http.createServer(app);
+
+ConnectDB();
 
 app.use(cors());
 app.use(helmet());
