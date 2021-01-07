@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
+import logger from 'morgan';
 import ConnectDB from './configs/database';
 
 dotenv.config();
@@ -16,6 +17,7 @@ const server = http.createServer(app);
 
 ConnectDB();
 
+app.use(logger('dev'));
 app.use(cors());
 app.use(helmet());
 
