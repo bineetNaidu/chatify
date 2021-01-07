@@ -8,13 +8,18 @@ interface User {
   status?: string;
   isAdmin: boolean;
 }
+interface Chat {
+  text: string;
+  senderId: string;
+  timestamp: Date;
+}
 
 interface ChannelDoc extends mongoose.Document {
   serverId: string;
   channelName: string;
   channelAdmin: User;
   invitee: User;
-  chats: [];
+  chats: Chat[];
   channelAvatar: string;
 }
 
