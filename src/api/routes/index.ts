@@ -1,11 +1,16 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 import { Router } from 'express';
-// TODO: routes for "Auth" service
+import signinOauthRoute from './auth/signinOauth';
+import redirectOauthRoute from './auth/redirectOauth';
 // TODO: routes for "Servers" service
 // TODO: routes for "Channels" service
 // TODO: routes for "Chats" service
 
 const RootAPIRoutes = Router();
 
-RootAPIRoutes.get('/api', (req, res) => res.send('Hello'));
+// ? Auth Service
+RootAPIRoutes.use('/auth', signinOauthRoute);
+RootAPIRoutes.use('/auth', redirectOauthRoute);
 
 export default RootAPIRoutes;
