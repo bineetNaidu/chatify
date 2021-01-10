@@ -10,7 +10,6 @@ enum ServerVisibility {
 
 interface User {
   name: string;
-  email: string;
   googleId: string;
   status?: string;
   isAdmin: boolean;

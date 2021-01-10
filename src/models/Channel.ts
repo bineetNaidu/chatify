@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 // ? Interfaces/Types
 interface User {
   name: string;
-  email: string;
   googleId: string;
   status?: string;
   isAdmin: boolean;

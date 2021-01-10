@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 // ? Interfaces/Types
 interface UserDoc extends mongoose.Document {
   name: string;
-  email: string;
   googleId: string;
   status?: string;
   isAdmin: boolean;
@@ -25,10 +24,6 @@ const StringRequiredAndUnique = {
 
 const UserSchema = new mongoose.Schema({
   name: StringAndRequired,
-  email: {
-    ...StringRequiredAndUnique,
-    lowercase: true,
-  },
   googleId: StringRequiredAndUnique,
   status: String,
   isAdmin: {
