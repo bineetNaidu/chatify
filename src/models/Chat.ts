@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 // ? Interfaces/Types
 interface ChatDoc extends mongoose.Document {
+  channelId: string;
   text: string;
   senderId: string;
   timestamp: Date;
@@ -16,8 +17,15 @@ const StringAndRequired = {
 };
 
 const ChatSchema = new mongoose.Schema({
+  channelId: {
+    ...StringAndRequired,
+    unique: true,
+  },
   text: StringAndRequired,
-  senderId: StringAndRequired,
+  senderId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
   timestamp: {
     type: mongoose.Schema.Types.Date,
     default: Date.now(),
