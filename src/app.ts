@@ -11,6 +11,7 @@ import path from 'path';
 import logger from 'morgan';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import 'express-async-errors';
 import User from './models/User';
 import ConnectDB from './configs/database';
 import RootAPIRoutes from './api/routes';
