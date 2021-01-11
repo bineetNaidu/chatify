@@ -35,6 +35,7 @@ const channelSchema = new mongoose.Schema({
   invitee: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true,
   },
   chats: [
     {
