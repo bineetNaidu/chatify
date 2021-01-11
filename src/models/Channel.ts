@@ -1,24 +1,12 @@
 import mongoose from 'mongoose';
 
 // ? Interfaces/Types
-interface User {
-  name: string;
-  googleId: string;
-  status?: string;
-  isAdmin: boolean;
-}
-interface Chat {
-  text: string;
-  senderId: string;
-  timestamp: Date;
-}
-
 interface ChannelDoc extends mongoose.Document {
   serverId: string;
   channelName: string;
-  channelAdmin: User;
-  invitee: User;
-  chats: Chat[];
+  channelAdmin: string;
+  invitee: string;
+  chats: string[];
   channelAvatar: string;
 }
 

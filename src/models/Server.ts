@@ -8,17 +8,10 @@ enum ServerVisibility {
   Private = 'private',
 }
 
-interface User {
-  name: string;
-  googleId: string;
-  status?: string;
-  isAdmin: boolean;
-}
-
 interface ServerDoc extends mongoose.Document {
   serverName: string;
-  serverAdmin: User;
-  members: User[] | [];
+  serverAdmin: string;
+  members: string[] | [];
   channels: [];
   visibility: ServerVisibility;
 }
