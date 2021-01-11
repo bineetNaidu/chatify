@@ -11,8 +11,8 @@ enum ServerVisibility {
 interface ServerDoc extends mongoose.Document {
   serverName: string;
   serverAdmin: string;
-  members: string[] | [];
-  channels: [];
+  members: string[];
+  channels: string[];
   visibility: ServerVisibility;
 }
 
