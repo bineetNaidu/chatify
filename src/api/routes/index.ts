@@ -7,7 +7,7 @@ import createServerRoute from './servers/create';
 import findServerRoute from './servers/find';
 import createChannelRoute from './channels/create';
 import findChannelRoute from './channels/find';
-// TODO: routes for "Chats" service
+import createChatRoute from './chats/create';
 
 const RootAPIRoutes = Router();
 
@@ -18,5 +18,6 @@ RootAPIRoutes.use('/server', createServerRoute);
 RootAPIRoutes.use('/server', findServerRoute);
 RootAPIRoutes.use('/channel', createChannelRoute);
 RootAPIRoutes.use('/channel', findChannelRoute);
+RootAPIRoutes.use('/chats', createChatRoute);
 
 export default RootAPIRoutes;
