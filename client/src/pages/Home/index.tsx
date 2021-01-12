@@ -1,8 +1,9 @@
 import { FC } from 'react';
+import './home.scss';
 
 const Home: FC = () => {
   return (
-    <div>
+    <div className="home">
       <h1>Chatify</h1>
     </div>
   );
