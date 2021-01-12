@@ -12,6 +12,7 @@ import logger from 'morgan';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import 'express-async-errors';
+import * as socketio from 'socket.io';
 import User from './models/User';
 import ConnectDB from './configs/database';
 import RootAPIRoutes from './api/routes';
@@ -61,7 +62,8 @@ passport.use(
 );
 
 const app = express();
-const server = http.createServer(app);
+const server = new http.Server(app);
+const io = new socketio.Server(server);
 
 ConnectDB();
 
@@ -72,6 +74,13 @@ app.use(helmet());
 // initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+// ? Socket IO
+io.on('connection', (data) => {
+  console.log('>> USER CONNECTED');
+});
+
+// ? /
 
 app.use('/api', RootAPIRoutes);
 
