@@ -1,8 +1,16 @@
+import { Switch, Redirect, Route } from 'react-router-dom';
+import { io as socketIO } from 'socket.io-client';
+import Home from './pages/Home';
+
+const io = socketIO();
+
 function App() {
   return (
-    <div>
-      <h1>Chatify App</h1>
-    </div>
+    <>
+      <Switch>
+        <Route exact path="/" component={Home} />
+      </Switch>
+    </>
   );
 }
 
