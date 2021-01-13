@@ -2,5 +2,9 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
+
+  &__info {
+    padding-left: 4rem;
+  }
 }
