@@ -1,4 +1,13 @@
+@import '../../variables';
+
 .chatWindow {
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    padding: 1rem;
+    border-bottom: 0.0009px solid $border_color;
+  }
 }
