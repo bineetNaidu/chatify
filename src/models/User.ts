@@ -6,6 +6,7 @@ interface UserDoc extends mongoose.Document {
   googleId: string;
   status?: string;
   isAdmin: boolean;
+  online: boolean;
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {}
@@ -27,6 +28,10 @@ const UserSchema = new mongoose.Schema({
   googleId: StringRequiredAndUnique,
   status: String,
   isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  online: {
     type: Boolean,
     default: false,
   },
