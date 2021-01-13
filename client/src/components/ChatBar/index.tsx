@@ -4,10 +4,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ChatBar from '../ChatBar';
-import './SidePanel.scss';
+import './ChatBar.scss';
 
-const SidePanel: FC = () => {
+const ChatBar: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -16,12 +15,14 @@ const SidePanel: FC = () => {
     setAnchorEl(null);
   };
   return (
-    <div className="sidePanel">
-      <div className="sidePanel__header">
-        <Avatar
-          src="https://avatars0.githubusercontent.com/u/66471461?v=4"
-          alt="Bineet"
-        />
+    <div className="chatBar">
+      <Avatar />
+      <div className="chatBar__info">
+        <h1>User Name</h1>
+        <span>User Status</span>
+      </div>
+
+      <div className="chatBar__ctx">
         <IconButton color="secondary" onClick={handleClick}>
           <MoreVertIcon />
         </IconButton>
@@ -37,21 +38,8 @@ const SidePanel: FC = () => {
           <MenuItem onClick={handleClose}>Logout</MenuItem>
         </Menu>
       </div>
-      <div className="sidePanel__chatBars">
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-      </div>
     </div>
   );
 };
 
-export default SidePanel;
+export default ChatBar;
