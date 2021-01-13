@@ -76,8 +76,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // ? Socket IO
-io.on('connection', (data) => {
-  console.log('>> USER CONNECTED');
+io.on('connection', async (socket) => {
+  console.log('>> CONNECTED <<');
+
+  socket.on('USER_ACTIVE', async (data: { id: string; online: boolean }) => {
+    const user = await User.findOneAndUpdate(
+      { _id: data.id },
+      { online: data.online }
+    );
+    await user?.save();
+    socket.emit('USER_ACTIVE', user);
+  });
 });
 
 // ? /
