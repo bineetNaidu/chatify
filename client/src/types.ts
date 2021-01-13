@@ -1,6 +1,7 @@
 export interface User {
   name: string;
   id: string;
+  online: boolean;
 }
 
 export enum ServerVisibility {

@@ -11,7 +11,7 @@ const reducer = (state: State, action: Action): State => {
     case ActionTypes.SetOnline:
       return {
         ...state,
-        online: !state.online,
+        online: action.payload.online,
       };
 
     case ActionTypes.SetUser:

@@ -1,14 +1,19 @@
 import { Switch, Redirect, Route } from 'react-router-dom';
-import { io as socketIO } from 'socket.io-client';
+import io from './socketio';
 import { useContextStateValue } from './data/StateProvider';
 import Home from './pages/Home';
 import UserOnBoardPage from './pages/User';
-
-const io = socketIO();
+import { ActionTypes, User } from './types';
 
 function App() {
   const [state, dispatch] = useContextStateValue();
-  console.log(state.online);
+  io.on('USER_ACTIVE', (user: User) => {
+    dispatch({
+      type: ActionTypes.SetOnline,
+      payload: { online: user.online },
+    });
+  });
+
   return (
     <>
       <Switch>
