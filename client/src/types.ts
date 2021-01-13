@@ -41,3 +41,16 @@ export interface State {
   server?: Server;
   channels: Channel[];
 }
+
+export enum ActionTypes {
+  SetUser = 'SET_USER',
+  SetOnline = 'SET_ONLINE',
+  AddChatInChannel = 'ADD_CHAT_IN_CHANNEL',
+  AddChannel = 'ADD_CHANNEL',
+  RemoveChannel = 'REMOVE_CHANNEL',
+}
+
+export interface Action {
+  payload?: any;
+  type: ActionTypes;
+}

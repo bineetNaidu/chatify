@@ -1,23 +1,10 @@
-import { State } from '../types';
+import { Action, ActionTypes, State } from '../types';
 
 export const initialState: State = {
   user: null,
   online: false,
   channels: [],
 };
-
-enum ActionTypes {
-  SetUser = 'SET_USER',
-  SetOnline = 'SET_ONLINE',
-  AddChatInChannel = 'ADD_CHAT_IN_CHANNEL',
-  AddChannel = 'ADD_CHANNEL',
-  RemoveChannel = 'REMOVE_CHANNEL',
-}
-
-interface Action {
-  payload?: any;
-  type: ActionTypes;
-}
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {

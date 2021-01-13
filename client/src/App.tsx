@@ -8,7 +8,7 @@ const io = socketIO();
 
 function App() {
   const [state, dispatch] = useContextStateValue();
-  console.log(state);
+  console.log(state.online);
   return (
     <>
       <Switch>

@@ -2,7 +2,10 @@ import { createContext, useContext, useReducer, FC } from 'react';
 import reducer, { initialState } from './reducer';
 
 //? Prepares the dataLayer
-export const StateContext = createContext<any>([]);
+export const StateContext = createContext<any>({
+  state: initialState,
+  dispatch: reducer,
+});
 
 //? Wrap our app and provide the Data layer
 export const StateProvider: FC = ({ children }) => {
