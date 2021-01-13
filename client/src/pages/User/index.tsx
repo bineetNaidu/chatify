@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import ChatWindow from '../../components/ChatWindow';
 import SidePanel from '../../components/SidePanel';
 import './User.scss';
 
@@ -9,7 +10,9 @@ const User: FC = () => {
         <SidePanel />
       </div>
 
-      <div className="userBoard__chatWindow">{/* Chat Window */}</div>
+      <div className="userBoard__chatWindow">
+        <ChatWindow />
+      </div>
     </div>
   );
 };
