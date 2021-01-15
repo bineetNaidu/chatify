@@ -3,7 +3,7 @@ import io from './socketio';
 import { useStateValue } from './data/StateProvider';
 import Home from './pages/Home';
 import UserOnBoardPage from './pages/User';
-import { ActionTypes, User } from './types';
+import { ActionTypes, User, Server } from './types';
 
 function App() {
   const [state, dispatch] = useStateValue();
@@ -17,6 +17,19 @@ function App() {
     dispatch({
       type: ActionTypes.SetOnline,
       payload: { online: user.online },
+    });
+  });
+
+  io.on('SERVER_RETRIVED', (server: Server) => {
+    const { serverAdmin, channels, serverName, visibility, members } = server;
+    dispatch({
+      type: ActionTypes.SetServer,
+      payload: { serverAdmin, serverName, visibility, members },
+    });
+
+    dispatch({
+      type: ActionTypes.SetChannel,
+      payload: channels,
     });
   });
 
