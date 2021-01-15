@@ -13,6 +13,7 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import 'express-async-errors';
 import * as socketio from 'socket.io';
+import axios from 'axios';
 import User from './models/User';
 import ConnectDB from './configs/database';
 import RootAPIRoutes from './api/routes';
@@ -79,15 +80,29 @@ app.use(passport.session());
 io.on('connection', async (socket) => {
   console.log('>> CONNECTED <<');
 
-  socket.on('USER_ACTIVE', async (data: { id: string; online: boolean }) => {
-    const user = await User.findOneAndUpdate(
-      { _id: data.id },
-      { online: data.online }
-    );
-    await user?.save();
-    socket.emit('USER_ACTIVE', user);
-    console.log(`${user?.name} is active`);
-  });
+  socket.on(
+    'USER_ACTIVE',
+    async (sentData: { id: string; online: boolean }) => {
+      try {
+        const user = await User.findOneAndUpdate(
+          { _id: sentData.id },
+          { online: sentData.online }
+        );
+        await user?.save();
+        socket.emit('USER_ACTIVE', user);
+        console.log(`${user?.name} is active`);
+        const { data } = await axios.get(
+          // eslint-disable-next-line no-underscore-dangle
+          `http://localhost:4242/api/server/${user?._id}`
+        );
+        console.log(data);
+        socket.emit('SERVER_RETRIVED', data);
+        console.log('server data retrived');
+      } catch (e) {
+        console.log('ERROR: ', e.message);
+      }
+    }
+  );
 });
 
 // ? /
