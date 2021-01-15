@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import ChatTextForm from '../ChatTextForm';
 import ChatWindowBody from '../ChatWindowBody';
 import ChatWindowHeader from '../ChatWindowHeader';
 import './ChatWindow.scss';
@@ -12,8 +13,9 @@ const ChatWindow: FC = () => {
       <div className="chatWindow__body">
         <ChatWindowBody />
       </div>
-      <div className="chatWindow__textInput"></div>
-      {/* ChatWindow Text Imput Form */}
+      <div className="chatWindow__textInput">
+        <ChatTextForm />
+      </div>
     </div>
   );
 };
