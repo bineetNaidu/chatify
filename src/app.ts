@@ -86,6 +86,7 @@ io.on('connection', async (socket) => {
     );
     await user?.save();
     socket.emit('USER_ACTIVE', user);
+    console.log(`${user?.name} is active`);
   });
 });
 
