@@ -12,8 +12,8 @@ export enum ServerVisibility {
 export interface Server {
   serverName: string;
   serverAdmin: string;
-  members?: string[];
   channels: Channel[];
+  members?: string[];
   visibility: ServerVisibility;
 }
 
@@ -39,7 +39,7 @@ export interface State {
   user: User | null;
   currentChatWindow?: string;
   online: boolean;
-  server?: Server;
+  server: Server | null;
   channels: Channel[];
 }
 
@@ -49,6 +49,8 @@ export enum ActionTypes {
   AddChatInChannel = 'ADD_CHAT_IN_CHANNEL',
   AddChannel = 'ADD_CHANNEL',
   RemoveChannel = 'REMOVE_CHANNEL',
+  SetServer = 'SET_SERVER',
+  SetChannel = 'SET_CHANNEL',
 }
 
 export interface Action {

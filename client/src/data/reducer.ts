@@ -4,10 +4,17 @@ export const initialState: State = {
   user: null,
   online: false,
   channels: [],
+  server: null,
 };
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case ActionTypes.SetServer:
+      return {
+        ...state,
+        server: action.payload,
+      };
+
     case ActionTypes.SetOnline:
       return {
         ...state,
@@ -18,6 +25,12 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         user: action.payload,
+      };
+
+    case ActionTypes.SetChannel:
+      return {
+        ...state,
+        channels: action.payload,
       };
 
     case ActionTypes.AddChannel:
