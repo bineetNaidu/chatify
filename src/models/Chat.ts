@@ -1,36 +1,33 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose';
+import { StringAndRequired } from './utils';
 
 // ? Interfaces/Types
 interface ChatDoc extends mongoose.Document {
-  channelId: string;
-  text: string;
   senderId: string;
-  timestamp: Date;
+  text: string;
 }
 
 interface ChatModel extends mongoose.Model<ChatDoc> {}
 
-// ? Utilities
-const StringAndRequired = {
-  type: String,
-  required: true,
-};
-
-const ChatSchema = new mongoose.Schema({
-  channelId: {
-    ...StringAndRequired,
-    unique: true,
+const ChatSchema = new mongoose.Schema(
+  {
+    senderId: StringAndRequired,
+    text: StringAndRequired,
   },
-  text: StringAndRequired,
-  senderId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  },
-  timestamp: {
-    type: mongoose.Schema.Types.Date,
-    default: Date.now(),
-  },
-});
+  {
+    timestamps: true,
+    toJSON: {
+      versionKey: false,
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
+    // eslint-disable-next-line comma-dangle
+  }
+);
 
 const Chat = mongoose.model<ChatDoc, ChatModel>('Chat', ChatSchema);
 

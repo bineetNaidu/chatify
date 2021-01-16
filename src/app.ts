@@ -1,7 +1,4 @@
 /* eslint-disable comma-dangle */
-/* eslint-disable no-console */
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-unresolved */
 import express from 'express';
 import http from 'http';
 import dotenv from 'dotenv';
@@ -13,10 +10,10 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import 'express-async-errors';
 import * as socketio from 'socket.io';
-import axios from 'axios';
 import User from './models/User';
 import ConnectDB from './configs/database';
 import RootAPIRoutes from './api/routes';
+import SocketIOServerConnection from './SocketIO';
 
 dotenv.config();
 const DEV = process.env.NODE_ENV !== 'production';
@@ -50,6 +47,7 @@ passport.use(
           new User({
             googleId: profile.id,
             name: profile.displayName,
+            avatar: profile.photos[0].value,
           })
             .save()
             .then((newUser: any) => {
@@ -77,34 +75,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // ? Socket IO
-io.on('connection', async (socket) => {
-  console.log('>> CONNECTED <<');
-
-  socket.on(
-    'USER_ACTIVE',
-    async (sentData: { id: string; online: boolean }) => {
-      try {
-        const user = await User.findOneAndUpdate(
-          { _id: sentData.id },
-          { online: sentData.online }
-        );
-        await user?.save();
-        socket.emit('USER_ACTIVE', user);
-        console.log(`${user?.name} is active`);
-        const { data } = await axios.get(
-          // eslint-disable-next-line no-underscore-dangle
-          `http://localhost:4242/api/server/${user?._id}`
-        );
-        console.log(data);
-        socket.emit('SERVER_RETRIVED', data);
-        console.log('server data retrived');
-      } catch (e) {
-        console.log('ERROR: ', e.message);
-      }
-    }
-  );
-});
-
+SocketIOServerConnection(io);
 // ? /
 
 app.use('/api', RootAPIRoutes);
