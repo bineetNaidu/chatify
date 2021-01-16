@@ -1,4 +1,4 @@
-import { Switch, Redirect, Route } from 'react-router-dom';
+import { Switch, Redirect, Route, useHistory } from 'react-router-dom';
 import io from './socketio';
 import { useStateValue } from './data/StateProvider';
 import Home from './pages/Home';
@@ -7,6 +7,7 @@ import { ActionTypes, User, Server } from './types';
 
 function App() {
   const [state, dispatch] = useStateValue();
+  const history = useHistory();
 
   io.on('USER_ACTIVE', (user: User) => {
     dispatch({
@@ -31,6 +32,7 @@ function App() {
       type: ActionTypes.SetChannel,
       payload: channels,
     });
+    history.push('/u');
   });
 
   const handleSignin = () => {
@@ -50,7 +52,7 @@ function App() {
             </div>
           )}
         />
-        {state.user ? (
+        {state.user !== null ? (
           <Route exact path="/u" component={UserOnBoardPage} />
         ) : (
           <Redirect to="/" />

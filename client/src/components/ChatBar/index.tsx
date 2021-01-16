@@ -6,7 +6,12 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import './ChatBar.scss';
 
-const ChatBar: FC = () => {
+type Props = {
+  channelName: string;
+  invitee: string;
+};
+
+const ChatBar: FC<Props> = ({ channelName, invitee }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -18,8 +23,8 @@ const ChatBar: FC = () => {
     <div className="chatBar">
       <Avatar />
       <div className="chatBar__info">
-        <h1>User Name</h1>
-        <span>User Status</span>
+        <h1>{channelName}</h1>
+        <span>{invitee}</span>
       </div>
 
       <div className="chatBar__ctx">
@@ -33,9 +38,8 @@ const ChatBar: FC = () => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
+          <MenuItem onClick={handleClose}>Delete The Channels Chats</MenuItem>
+          <MenuItem onClick={handleClose}>Block</MenuItem>
         </Menu>
       </div>
     </div>

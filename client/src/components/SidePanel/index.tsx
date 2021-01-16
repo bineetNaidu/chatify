@@ -1,14 +1,18 @@
-import { FC, useState } from 'react';
+import { FC, useState, Fragment } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ChatBar from '../ChatBar';
+import { useStateValue } from '../../data/StateProvider';
 import './SidePanel.scss';
+import { Channel } from '../../types';
 
 const SidePanel: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [state] = useStateValue();
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -38,17 +42,11 @@ const SidePanel: FC = () => {
         </Menu>
       </div>
       <div className="sidePanel__chatBars">
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
-        <ChatBar />
+        {state.channels.map((c: Channel) => (
+          <Fragment key={(c as any)._id}>
+            <ChatBar channelName={c.channelName} invitee={c.invitee} />
+          </Fragment>
+        ))}
       </div>
     </div>
   );
