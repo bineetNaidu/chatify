@@ -12,10 +12,7 @@ interface UserDoc extends mongoose.Document {
   isAdmin: boolean;
   online: boolean;
   blockedLists: string[];
-  friends: {
-    friend: string;
-    room: string;
-  }[];
+  rooms: string[];
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {}
@@ -43,16 +40,10 @@ const UserSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
-    friends: [
+    rooms: [
       {
-        friend: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'User',
-        },
-        room: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Room',
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room',
       },
     ],
   },
