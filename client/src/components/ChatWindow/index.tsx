@@ -1,17 +1,18 @@
 import { FC } from 'react';
+import { SelectedChatType } from '../../pages/User';
 import ChatTextForm from '../ChatTextForm';
 import ChatWindowBody from '../ChatWindowBody';
 import ChatWindowHeader from '../ChatWindowHeader';
 import './ChatWindow.scss';
 
-const ChatWindow: FC = () => {
+const ChatWindow: FC<SelectedChatType> = ({ channelName, chats, invitee }) => {
   return (
     <div className="chatWindow">
       <div className="chatWindow__header">
-        <ChatWindowHeader />
+        <ChatWindowHeader channelName={channelName} invitee={invitee} />
       </div>
       <div className="chatWindow__body">
-        <ChatWindowBody />
+        <ChatWindowBody chats={chats} />
       </div>
       <div className="chatWindow__textInput">
         <ChatTextForm />

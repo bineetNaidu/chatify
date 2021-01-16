@@ -1,8 +1,13 @@
 import { FC } from 'react';
+import { Chat } from '../../types';
 import ChatText from '../ChatText';
 import './ChatWindowBody.scss';
 
-const ChatWindowBody: FC = () => {
+interface Props {
+  chats: Chat[];
+}
+
+const ChatWindowBody: FC<Props> = ({ chats }) => {
   return (
     <div className="ChatWindowBody">
       <ChatText me text="Hi" timestamp={new Date().toString()} />
