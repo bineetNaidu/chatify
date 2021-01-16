@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { StringAndRequired } from './utils';
 
 // ? Interfaces/Types
 interface UserDoc extends mongoose.Document {
@@ -11,21 +12,12 @@ interface UserDoc extends mongoose.Document {
 
 interface UserModel extends mongoose.Model<UserDoc> {}
 
-// ? Utilities
-const StringAndRequired = {
-  type: String,
-  required: true,
-};
-
-const StringRequiredAndUnique = {
-  type: String,
-  required: true,
-  unique: true,
-};
-
 const UserSchema = new mongoose.Schema({
   name: StringAndRequired,
-  googleId: StringRequiredAndUnique,
+  googleId: {
+    type: String,
+    unique: true,
+  },
   status: String,
   isAdmin: {
     type: Boolean,
