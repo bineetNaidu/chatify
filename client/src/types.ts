@@ -1,59 +1,42 @@
-export interface User {
+export type UserType = {
+  id: string;
   name: string;
-  id: string;
+  avatar?: string;
+  googleId: string;
+  status?: string;
+  isAdmin: boolean;
   online: boolean;
-}
+  blockedLists: string[];
+  rooms: string[];
+};
 
-export enum ServerVisibility {
-  Public = 'public',
-  Private = 'private',
-}
-
-export interface Server {
-  serverName: string;
-  serverAdmin: string;
-  channels: Channel[];
-  members?: string[];
-  visibility: ServerVisibility;
-}
-
-export interface Chat {
-  id: string;
-  channelId: string;
-  text: string;
+export type ChatType = {
   senderId: string;
-  timestamp: Date;
-}
-
-export interface Channel {
+  text: string;
+  timestamps?: Date;
+  created_at: Date;
   id: string;
-  serverId: string;
-  channelName: string;
-  channelAdmin: string;
-  invitee: string;
-  chats: Chat[];
-  channelAvatar: string;
-}
+};
 
-export interface State {
-  user: User | null;
-  currentChatWindow?: string;
-  online: boolean;
-  server: Server | null;
-  channels: Channel[];
-}
+export type RoomType = {
+  roomName: string;
+  roomAvatar: string;
+  id: string;
+  roomStatus: string;
+  master: string;
+  invitee: string;
+  chats: ChatType[];
+};
 
 export enum ActionTypes {
   SetUser = 'SET_USER',
-  SetOnline = 'SET_ONLINE',
-  AddChatInChannel = 'ADD_CHAT_IN_CHANNEL',
-  AddChannel = 'ADD_CHANNEL',
-  RemoveChannel = 'REMOVE_CHANNEL',
-  SetServer = 'SET_SERVER',
-  SetChannel = 'SET_CHANNEL',
+  SetRoom = 'SET_ROOM',
+  AddChat = 'ADD_CHAT',
 }
 
-export interface Action {
-  payload?: any;
+export enum SocketIOEvents {}
+
+export type Action = {
   type: ActionTypes;
-}
+  payload?: any;
+};
