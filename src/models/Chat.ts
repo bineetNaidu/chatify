@@ -4,7 +4,10 @@ import mongoose from 'mongoose';
 import { StringAndRequired } from './utils';
 
 // ? Interfaces/Types
-interface ChatDoc extends mongoose.Document {}
+interface ChatDoc extends mongoose.Document {
+  senderId: string;
+  text: string;
+}
 
 interface ChatModel extends mongoose.Model<ChatDoc> {}
 
