@@ -5,7 +5,7 @@ import reducer, { initialRoomState } from './reducer';
 export const RoomStateContext = createContext();
 
 // Wrap our app and provide the Data layer
-export const UserStateProvider = ({ children }) => (
+export const RoomStateProvider = ({ children }) => (
   <RoomStateContext.Provider value={useReducer(reducer, initialRoomState)}>
     {children}
   </RoomStateContext.Provider>

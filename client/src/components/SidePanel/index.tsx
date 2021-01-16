@@ -5,9 +5,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ChatBar from '../ChatBar';
-import { useStateValue } from '../../data/StateProvider';
+import { useRoomStateValue } from '../../data/RoomStateProvider';
+import { useUserStateValue } from '../../data/UserStateProvider';
 import './SidePanel.scss';
-import { Channel } from '../../types';
+import { RoomType } from '../../types';
 
 interface Props {
   handleChatSelection(id: string): void;
@@ -15,7 +16,8 @@ interface Props {
 
 const SidePanel: FC<Props> = ({ handleChatSelection }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [state] = useStateValue();
+  const [{ rooms }] = useRoomStateValue();
+  const [{ user }] = useUserStateValue();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -26,10 +28,7 @@ const SidePanel: FC<Props> = ({ handleChatSelection }) => {
   return (
     <div className="sidePanel">
       <div className="sidePanel__header">
-        <Avatar
-          src="https://avatars0.githubusercontent.com/u/66471461?v=4"
-          alt="Bineet"
-        />
+        <Avatar src={user.avatar} alt={user.name} />
         <IconButton color="secondary" onClick={handleClick}>
           <MoreVertIcon />
         </IconButton>
@@ -46,14 +45,12 @@ const SidePanel: FC<Props> = ({ handleChatSelection }) => {
         </Menu>
       </div>
       <div className="sidePanel__chatBars">
-        {state.channels.map((c: Channel) => (
-          <div
-            key={(c as any)._id}
-            onClick={() => handleChatSelection((c as any)._id)}
-          >
-            <ChatBar channelName={c.channelName} invitee={c.invitee} />
-          </div>
-        ))}
+        {rooms &&
+          rooms.map((room: RoomType) => (
+            <div key={room.id} onClick={() => handleChatSelection(room.id)}>
+              <ChatBar roomName={room.roomName} roomStatus={room.roomStatus} />
+            </div>
+          ))}
       </div>
     </div>
   );

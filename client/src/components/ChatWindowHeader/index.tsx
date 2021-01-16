@@ -3,18 +3,18 @@ import Avatar from '@material-ui/core/Avatar';
 import './ChatWindowHeader.scss';
 
 interface Props {
-  channelName: string;
-  invitee: string;
+  roomName: string;
+  roomStatus: string;
 }
 
-const ChatWindowHeader: FC<Props> = ({ channelName, invitee }) => {
+const ChatWindowHeader: FC<Props> = ({ roomName, roomStatus }) => {
   return (
     <div className="chatWindowHeader">
       <Avatar />
 
       <div className="chatWindowHeader__info">
-        <h1>{channelName}</h1>
-        <p>{invitee}</p>
+        <h1>{roomName}</h1>
+        <p>{roomStatus}</p>
       </div>
     </div>
   );
