@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { Chat } from '../../types';
+import { ChatType } from '../../types';
 import ChatText from '../ChatText';
 import './ChatWindowBody.scss';
 
 interface Props {
-  chats: Chat[];
+  chats: ChatType[];
 }
 
 const ChatWindowBody: FC<Props> = ({ chats }) => {

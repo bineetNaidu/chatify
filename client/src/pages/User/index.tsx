@@ -1,27 +1,18 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import ChatWindow from '../../components/ChatWindow';
 import SidePanel from '../../components/SidePanel';
-import io from '../../socketio';
-import { Channel, Chat } from '../../types';
+import { useRoomStateValue } from '../../data/RoomStateProvider';
+import { ActionTypes, RoomType } from '../../types';
 import './User.scss';
 
-export type SelectedChatType = {
-  channelName: string;
-  invitee: string;
-  chats: Chat[];
-};
-
 const User: FC = () => {
-  const [selectedChat, setSelectedChat] = useState<SelectedChatType | null>(
-    null
-  );
-
-  io.on('FOUND_CHANNEL', (channel: Channel) => {
-    setSelectedChat(channel);
-  });
+  const [state, dispatch] = useRoomStateValue();
 
   const handleChatSelection = (id: string) => {
-    io.emit('GET_CHANNEL', { id });
+    dispatch({
+      type: ActionTypes.SetSelectedChatRoom,
+      payload: state.rooms.find((r: RoomType) => r.id === id),
+    });
   };
 
   return (
@@ -31,8 +22,8 @@ const User: FC = () => {
       </div>
 
       <div className="userBoard__chatWindow">
-        {selectedChat ? (
-          <ChatWindow {...selectedChat} /> //? see SelectedChatType interface
+        {state.selectedRoom ? (
+          <ChatWindow {...state.selectedRoom} />
         ) : (
           <h1
             style={{

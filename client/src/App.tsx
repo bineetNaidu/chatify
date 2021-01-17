@@ -1,42 +1,26 @@
 import { Switch, Redirect, Route, useHistory } from 'react-router-dom';
 import io from './socketio';
-import { useStateValue } from './data/StateProvider';
+import { useUserStateValue } from './data/UserStateProvider';
+import { RoomStateProvider } from './data/RoomStateProvider';
 import Home from './pages/Home';
 import UserOnBoardPage from './pages/User';
-import { ActionTypes, User, Server } from './types';
+import { ActionTypes, UserType } from './types';
 
 function App() {
-  const [state, dispatch] = useStateValue();
+  const [state, dispatch] = useUserStateValue();
   const history = useHistory();
 
-  io.on('USER_ACTIVE', (user: User) => {
+  io.on('USER_ACTIVE', (user: UserType) => {
+    //! Check for user id match
     dispatch({
       type: ActionTypes.SetUser,
       payload: user,
     });
-
-    dispatch({
-      type: ActionTypes.SetOnline,
-      payload: { online: user.online },
-    });
-  });
-
-  io.on('SERVER_RETRIVED', (server: Server) => {
-    const { serverAdmin, channels, serverName, visibility, members } = server;
-    dispatch({
-      type: ActionTypes.SetServer,
-      payload: { serverAdmin, serverName, visibility, members },
-    });
-
-    dispatch({
-      type: ActionTypes.SetChannel,
-      payload: channels,
-    });
-    history.push('/u');
+    history.push('/user');
   });
 
   const handleSignin = () => {
-    io.emit('USER_ACTIVE', { id: '5ffb347148bc245492cd0441', online: true });
+    io.emit('USER_ACTIVE', { id: '6002de52ed0c5669101f1a40' });
   };
 
   return (
@@ -53,7 +37,9 @@ function App() {
           )}
         />
         {state.user !== null ? (
-          <Route exact path="/u" component={UserOnBoardPage} />
+          <RoomStateProvider>
+            <Route exact path="/user" component={UserOnBoardPage} />
+          </RoomStateProvider>
         ) : (
           <Redirect to="/" />
         )}

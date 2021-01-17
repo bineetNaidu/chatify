@@ -7,11 +7,11 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import './ChatBar.scss';
 
 type Props = {
-  channelName: string;
-  invitee: string;
+  roomName: string;
+  roomStatus: string;
 };
 
-const ChatBar: FC<Props> = ({ channelName, invitee }) => {
+const ChatBar: FC<Props> = ({ roomName, roomStatus }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -23,8 +23,8 @@ const ChatBar: FC<Props> = ({ channelName, invitee }) => {
     <div className="chatBar">
       <Avatar />
       <div className="chatBar__info">
-        <h1>{channelName}</h1>
-        <span>{invitee}</span>
+        <h1>{roomName}</h1>
+        <span>{roomStatus}</span>
       </div>
 
       <div className="chatBar__ctx">
