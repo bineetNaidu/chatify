@@ -9,6 +9,7 @@ import { useRoomStateValue } from '../../data/RoomStateProvider';
 import { useUserStateValue } from '../../data/UserStateProvider';
 import './SidePanel.scss';
 import { RoomType } from '../../types';
+import CreateNewRoom from '../CreateNewRoom';
 
 interface Props {
   handleChatSelection(id: string): void;
@@ -18,6 +19,15 @@ const SidePanel: FC<Props> = ({ handleChatSelection }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [{ rooms }] = useRoomStateValue();
   const [{ user }] = useUserStateValue();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -25,6 +35,7 @@ const SidePanel: FC<Props> = ({ handleChatSelection }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <div className="sidePanel">
       <div className="sidePanel__header">
@@ -45,6 +56,14 @@ const SidePanel: FC<Props> = ({ handleChatSelection }) => {
         </Menu>
       </div>
       <div className="sidePanel__chatBars">
+        <button
+          type="button"
+          className="sidePanel__chatBars__createBtn"
+          onClick={handleOpen}
+        >
+          Create new Room
+        </button>
+        <CreateNewRoom open={open} handleClose={handleCloseModal} />
         {rooms &&
           rooms.map((room: RoomType) => (
             <div key={room.id} onClick={() => handleChatSelection(room.id)}>

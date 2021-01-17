@@ -22,6 +22,15 @@ const User: FC = () => {
         payload: rooms,
       });
     });
+
+    io.on('ROOM_CREATED', (room: RoomType) => {
+      if (room.master === user.id) {
+        dispatch({
+          type: ActionTypes.AddRoom,
+          payload: room,
+        });
+      }
+    });
   }, [user.id, dispatch]);
 
   const handleChatSelection = (id: string) => {
