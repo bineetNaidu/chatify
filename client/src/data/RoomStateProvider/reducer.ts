@@ -35,6 +35,12 @@ const reducer = (state: RoomsState, action: Action): RoomsState => {
         selectedRoom: state.rooms?.find((r) => r.id === action.payload),
       };
 
+    case ActionTypes.AddRoom:
+      return {
+        ...state,
+        rooms: [...state.rooms!, action.payload],
+      };
+
     default:
       return state;
   }

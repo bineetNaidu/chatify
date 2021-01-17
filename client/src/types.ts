@@ -33,6 +33,7 @@ export enum ActionTypes {
   SetRoom = 'SET_ROOM',
   AddChat = 'ADD_CHAT',
   SetSelectedChatRoom = 'SET_SELECTED_CHAT_ROOM',
+  AddRoom = 'ADD_ROOM',
 }
 
 export enum SocketIOEvents {}
