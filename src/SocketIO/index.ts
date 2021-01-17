@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Server } from 'socket.io';
 import handleUserActive from './utils/handleActiveUser';
 import handleCreateChat from './utils/handleCreateChat';
+import handleGetRooms from './utils/handleGetRooms';
 
 export default function SocketIOServerConnection(io: Server) {
   io.on('connection', (socket) => {
@@ -12,6 +13,8 @@ export default function SocketIOServerConnection(io: Server) {
     handleUserActive(socket);
 
     handleCreateChat(socket);
+
+    handleGetRooms(socket);
 
     socket.on('ROOM_CREATED', (room: any) => {
       socket.emit('ROOM_CREATED', room);

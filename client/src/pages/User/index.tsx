@@ -1,17 +1,33 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import ChatWindow from '../../components/ChatWindow';
 import SidePanel from '../../components/SidePanel';
 import { useRoomStateValue } from '../../data/RoomStateProvider';
+import { useUserStateValue } from '../../data/UserStateProvider';
+import io from '../../socketio';
 import { ActionTypes, RoomType } from '../../types';
 import './User.scss';
 
 const User: FC = () => {
   const [state, dispatch] = useRoomStateValue();
+  const [{ user }] = useUserStateValue();
+
+  useEffect(() => {
+    io.emit('GET_ROOMS', { userId: user.id });
+
+    io.on('FOUND_ROOMS', (rooms: RoomType[]) => {
+      // if (rooms[0].master === user.id) return;
+
+      dispatch({
+        type: ActionTypes.SetRoom,
+        payload: rooms,
+      });
+    });
+  }, [user.id, dispatch]);
 
   const handleChatSelection = (id: string) => {
     dispatch({
       type: ActionTypes.SetSelectedChatRoom,
-      payload: state.rooms.find((r: RoomType) => r.id === id),
+      payload: id,
     });
   };
 
