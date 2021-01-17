@@ -9,9 +9,10 @@ import './ChatBar.scss';
 type Props = {
   roomName: string;
   roomStatus: string;
+  roomAvatar: string;
 };
 
-const ChatBar: FC<Props> = ({ roomName, roomStatus }) => {
+const ChatBar: FC<Props> = ({ roomName, roomStatus, roomAvatar }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -21,7 +22,7 @@ const ChatBar: FC<Props> = ({ roomName, roomStatus }) => {
   };
   return (
     <div className="chatBar">
-      <Avatar />
+      <Avatar src={roomAvatar} alt={roomName} />
       <div className="chatBar__info">
         <h1>{roomName}</h1>
         <span>{roomStatus}</span>
