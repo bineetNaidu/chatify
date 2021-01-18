@@ -4,22 +4,33 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import io from '../../socketio';
+import { useUserStateValue } from '../../data/UserStateProvider';
 import './ChatBar.scss';
 
 type Props = {
+  roomId: string;
   roomName: string;
   roomStatus: string;
   roomAvatar: string;
 };
 
-const ChatBar: FC<Props> = ({ roomName, roomStatus, roomAvatar }) => {
+const ChatBar: FC<Props> = ({ roomName, roomStatus, roomAvatar, roomId }) => {
+  const [{ user }] = useUserStateValue();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleDeleteRoom = () => {
+    console.log(user.id);
+    io.emit('DELETE_ROOM', { userId: user.id, roomId });
+  };
+
   return (
     <div className="chatBar">
       <Avatar src={roomAvatar} alt={roomName} />
@@ -39,7 +50,7 @@ const ChatBar: FC<Props> = ({ roomName, roomStatus, roomAvatar }) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Delete The Channels Chats</MenuItem>
+          <MenuItem onClick={handleDeleteRoom}>Delete This Room</MenuItem>
           <MenuItem onClick={handleClose}>Block</MenuItem>
         </Menu>
       </div>

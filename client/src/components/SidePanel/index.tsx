@@ -68,6 +68,7 @@ const SidePanel: FC<Props> = ({ handleChatSelection }) => {
           rooms.map((room: RoomType) => (
             <div key={room.id} onClick={() => handleChatSelection(room.id)}>
               <ChatBar
+                roomId={room.id}
                 roomAvatar={room.roomAvatar}
                 roomName={room.roomName}
                 roomStatus={room.roomStatus}

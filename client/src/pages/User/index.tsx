@@ -31,6 +31,15 @@ const User: FC = () => {
         });
       }
     });
+
+    io.on('ROOM_DELETED', (data: { userId: string; data: RoomType[] }) => {
+      if (data.userId === user.id) {
+        dispatch({
+          type: ActionTypes.SetRoom,
+          payload: data.data,
+        });
+      }
+    });
   }, [user.id, dispatch]);
 
   const handleChatSelection = (id: string) => {
