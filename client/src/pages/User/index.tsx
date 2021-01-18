@@ -8,7 +8,7 @@ import { ActionTypes, RoomType } from '../../types';
 import './User.scss';
 
 const User: FC = () => {
-  const [state, dispatch] = useRoomStateValue();
+  const [{ selectedRoom, rooms }, dispatch] = useRoomStateValue();
   const [{ user }] = useUserStateValue();
 
   useEffect(() => {
@@ -40,6 +40,18 @@ const User: FC = () => {
         });
       }
     });
+
+    io.on('CHAT_DELIVERED', (data: { roomId: any; room: RoomType }) => {
+      const { roomId, room } = data;
+      console.log(room);
+      const foundRoom = (rooms as RoomType[]).find((r) => r.id === roomId);
+      if (foundRoom) {
+        dispatch({
+          type: ActionTypes.AddChat,
+          payload: { chat: room.chats },
+        });
+      }
+    });
   }, [user.id, dispatch]);
 
   const handleChatSelection = (id: string) => {
@@ -56,8 +68,8 @@ const User: FC = () => {
       </div>
 
       <div className="userBoard__chatWindow">
-        {state.selectedRoom ? (
-          <ChatWindow {...state.selectedRoom} />
+        {selectedRoom ? (
+          <ChatWindow {...selectedRoom} />
         ) : (
           <h1
             style={{

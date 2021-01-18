@@ -18,7 +18,7 @@ const ChatWindowBody: FC<Props> = ({ chats }) => {
           <ChatText
             me={c.senderId === user.id}
             text="Hi"
-            timestamp={c.created_at.toDateString()}
+            timestamp={(c as any).createdAt}
           />
         </Fragment>
       ))}

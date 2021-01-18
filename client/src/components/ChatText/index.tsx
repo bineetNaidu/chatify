@@ -3,7 +3,7 @@ import './ChatText.scss';
 
 type Props = {
   text: string;
-  timestamp: string;
+  timestamp: any;
   me: boolean;
 };
 
