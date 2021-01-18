@@ -3,12 +3,17 @@
   margin-top: auto;
   width: 100%;
   height: 100%;
-  background: #000;
+  background: rgba(255, 255, 255, 0.076);
   display: flex;
 
   &__input {
     width: 100%;
     flex: 0.9;
+    color: white;
+    padding: 5px 1rem;
+    font-size: large;
+    background-color: rgba(255, 255, 255, 0.115);
+    outline: none;
   }
   &__btn {
     flex: 0.1;
