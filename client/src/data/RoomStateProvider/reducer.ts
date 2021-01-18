@@ -14,7 +14,6 @@ const reducer = (state: RoomsState, action: Action): RoomsState => {
   switch (action.type) {
     case ActionTypes.SetRoom:
       return {
-        ...state,
         rooms: action.payload,
       };
 
