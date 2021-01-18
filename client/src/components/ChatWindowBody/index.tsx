@@ -1,6 +1,7 @@
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
 import { ChatType } from '../../types';
 import ChatText from '../ChatText';
+import { useUserStateValue } from '../../data/UserStateProvider';
 import './ChatWindowBody.scss';
 
 interface Props {
@@ -8,12 +9,19 @@ interface Props {
 }
 
 const ChatWindowBody: FC<Props> = ({ chats }) => {
+  const [{ user }] = useUserStateValue();
+
   return (
     <div className="ChatWindowBody">
-      <ChatText me text="Hi" timestamp={new Date().toString()} />
-      <ChatText me text="Holla" timestamp={new Date().toString()} />
-      <ChatText me={false} text="Hi GUys" timestamp={new Date().toString()} />
-      <ChatText me text="Hi" timestamp={new Date().toString()} />
+      {chats.map((c) => (
+        <Fragment key={c.id}>
+          <ChatText
+            me={c.senderId === user.id}
+            text="Hi"
+            timestamp={c.created_at.toDateString()}
+          />
+        </Fragment>
+      ))}
     </div>
   );
 };
