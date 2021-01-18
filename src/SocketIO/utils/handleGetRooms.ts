@@ -8,7 +8,6 @@ export default function handleGetRooms(socket: any) {
 
       // ? The Client Will Do the Bussiness
       socket.emit('FOUND_ROOMS', user?.rooms);
-      console.log(user?.rooms);
       // ? w/ io.on('USER_ACTIVE', userDate)
       console.log(`${user?.name} recieved rooms`);
     } catch (e) {
