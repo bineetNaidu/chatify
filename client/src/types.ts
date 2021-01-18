@@ -13,8 +13,8 @@ export type UserType = {
 export type ChatType = {
   senderId: string;
   text: string;
-  timestamps?: Date;
-  created_at: Date;
+  createdAt: string | Date;
+  updatedAt: string | Date;
   id: string;
 };
 

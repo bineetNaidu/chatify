@@ -17,8 +17,8 @@ const ChatWindowBody: FC<Props> = ({ chats }) => {
         <Fragment key={c.id}>
           <ChatText
             me={c.senderId === user.id}
-            text="Hi"
-            timestamp={(c as any).createdAt}
+            text={c.text}
+            timestamp={c.createdAt}
           />
         </Fragment>
       ))}
