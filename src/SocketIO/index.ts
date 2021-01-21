@@ -5,6 +5,7 @@ import handleUserActive from './utils/handleActiveUser';
 import handleCreateChat from './utils/handleChatCreate';
 import handleDeleteRoom from './utils/handleDeleteRoom';
 import handleGetRooms from './utils/handleGetRooms';
+import handleChatWindowSelection from './utils/handleChatWindowSelection';
 
 export default function SocketIOServerConnection(io: Server) {
   io.on('connection', (socket) => {
@@ -17,6 +18,8 @@ export default function SocketIOServerConnection(io: Server) {
     handleDeleteRoom(socket);
 
     handleCreateChat(socket);
+
+    handleChatWindowSelection(socket);
 
     socket.on('ROOM_CREATED', (room: any) => {
       socket.emit('ROOM_CREATED', room);

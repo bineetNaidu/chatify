@@ -41,6 +41,17 @@ const User: FC = () => {
       }
     });
 
+    io.on(
+      'CHAT_WINDOW_SELECTED',
+      (data: { userId: string; room: RoomType }) => {
+        if (data.userId === user.id)
+          dispatch({
+            type: ActionTypes.SetSelectedChatRoom,
+            payload: data.room,
+          });
+      }
+    );
+
     // TODO Fix State Null Issue
     // io.on('CHAT_DELIVERED', (data: { roomId: string; room: RoomType }) => {
     //   console.log('DATA > ', data);
@@ -58,12 +69,9 @@ const User: FC = () => {
 
   const handleChatSelection = useCallback(
     (id: string) => {
-      dispatch({
-        type: ActionTypes.SetSelectedChatRoom,
-        payload: id,
-      });
+      io.emit('GET_CHAT_WINDOW_SELECTION', { userId: user.id, roomId: id });
     },
-    [roomState.selectedRoom]
+    [user.id]
   );
 
   return (
