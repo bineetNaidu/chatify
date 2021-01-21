@@ -31,7 +31,7 @@ const reducer = (state: RoomsState, action: Action): RoomsState => {
     case ActionTypes.SetSelectedChatRoom:
       return {
         ...state,
-        selectedRoom: state.rooms?.find((r) => r.id === action.payload),
+        selectedRoom: action.payload,
       };
 
     case ActionTypes.AddRoom:
