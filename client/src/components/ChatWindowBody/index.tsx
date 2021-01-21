@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useRef, useEffect } from 'react';
 import { ChatType } from '../../types';
 import ChatText from '../ChatText';
 import { useUserStateValue } from '../../data/UserStateProvider';
@@ -10,6 +10,11 @@ interface Props {
 
 const ChatWindowBody: FC<Props> = ({ chats }) => {
   const [{ user }] = useUserStateValue();
+  const windowBtmView = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    windowBtmView.current?.scrollIntoView();
+  }, []);
 
   return (
     <div className="ChatWindowBody">
@@ -22,6 +27,7 @@ const ChatWindowBody: FC<Props> = ({ chats }) => {
           />
         </Fragment>
       ))}
+      <div ref={windowBtmView}></div>
     </div>
   );
 };

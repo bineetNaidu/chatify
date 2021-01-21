@@ -6,6 +6,7 @@
   background-color: $primary_bg;
   display: flex;
   color: $font_color;
+  overflow: hidden;
 
   &__sidepannel {
     flex: 0.25;
