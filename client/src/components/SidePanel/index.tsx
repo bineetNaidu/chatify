@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useCallback, memo } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -21,13 +21,13 @@ const SidePanel: FC<Props> = ({ handleChatSelection }) => {
   const [{ user }] = useUserStateValue();
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = useCallback(() => {
     setOpen(true);
-  };
+  }, [setOpen]);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setOpen(false);
-  };
+  }, [setOpen]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -80,4 +80,4 @@ const SidePanel: FC<Props> = ({ handleChatSelection }) => {
   );
 };
 
-export default SidePanel;
+export default memo(SidePanel);

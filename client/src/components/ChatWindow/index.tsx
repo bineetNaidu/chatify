@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { RoomType } from '../../types';
 import ChatTextForm from '../ChatTextForm';
 import ChatWindowBody from '../ChatWindowBody';
@@ -30,4 +30,4 @@ const ChatWindow: FC<RoomType> = ({
   );
 };
 
-export default ChatWindow;
+export default memo(ChatWindow);

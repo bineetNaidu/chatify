@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, memo, useCallback } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -26,10 +26,10 @@ const ChatBar: FC<Props> = ({ roomName, roomStatus, roomAvatar, roomId }) => {
     setAnchorEl(null);
   };
 
-  const handleDeleteRoom = () => {
+  const handleDeleteRoom = useCallback(() => {
     console.log(user.id);
     io.emit('DELETE_ROOM', { userId: user.id, roomId });
-  };
+  }, [user, roomId]);
 
   return (
     <div className="chatBar">
@@ -58,4 +58,4 @@ const ChatBar: FC<Props> = ({ roomName, roomStatus, roomAvatar, roomId }) => {
   );
 };
 
-export default ChatBar;
+export default memo(ChatBar);

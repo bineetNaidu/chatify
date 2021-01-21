@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import ChatWindow from '../../components/ChatWindow';
 import SidePanel from '../../components/SidePanel';
 import { useRoomStateValue } from '../../data/RoomStateProvider';
@@ -8,7 +8,7 @@ import { ActionTypes, RoomType } from '../../types';
 import './User.scss';
 
 const User: FC = () => {
-  const [{ selectedRoom, rooms }, dispatch] = useRoomStateValue();
+  const [roomState, dispatch] = useRoomStateValue();
   const [{ user }] = useUserStateValue();
 
   useEffect(() => {
@@ -41,25 +41,30 @@ const User: FC = () => {
       }
     });
 
-    io.on('CHAT_DELIVERED', (data: { roomId: any; room: RoomType }) => {
-      const { roomId, room } = data;
-      console.log(room);
-      const foundRoom = (rooms as RoomType[]).find((r) => r.id === roomId);
-      if (foundRoom) {
-        dispatch({
-          type: ActionTypes.AddChat,
-          payload: { chat: room.chats },
-        });
-      }
-    });
+    // TODO Fix State Null Issue
+    // io.on('CHAT_DELIVERED', (data: { roomId: string; room: RoomType }) => {
+    //   console.log('DATA > ', data);
+    //   console.log('STATE_ROOM > ', roomState);
+
+    //   // const foundRoom = rooms.find((r: { id: string }) => r.id === roomId);
+    //   // if (foundRoom) {
+    //   //   dispatch({
+    //   //     type: ActionTypes.AddChat,
+    //   //     payload: { chat: room.chats },
+    //   //   });
+    //   // }
+    // });
   }, [user.id, dispatch]);
 
-  const handleChatSelection = (id: string) => {
-    dispatch({
-      type: ActionTypes.SetSelectedChatRoom,
-      payload: id,
-    });
-  };
+  const handleChatSelection = useCallback(
+    (id: string) => {
+      dispatch({
+        type: ActionTypes.SetSelectedChatRoom,
+        payload: id,
+      });
+    },
+    [roomState.selectedRoom]
+  );
 
   return (
     <div className="userBoard">
@@ -68,8 +73,8 @@ const User: FC = () => {
       </div>
 
       <div className="userBoard__chatWindow">
-        {selectedRoom ? (
-          <ChatWindow {...selectedRoom} />
+        {roomState.selectedRoom ? (
+          <ChatWindow {...roomState.selectedRoom} />
         ) : (
           <h1
             style={{

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import './ChatWindowHeader.scss';
 
@@ -21,4 +21,4 @@ const ChatWindowHeader: FC<Props> = ({ roomName, roomStatus, roomAvatar }) => {
   );
 };
 
-export default ChatWindowHeader;
+export default memo(ChatWindowHeader);
