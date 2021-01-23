@@ -13,10 +13,14 @@ export default function handleCreateChat(socket: any) {
       text: string;
     }) => {
       try {
+        console.table(data);
         const masterUser = await User.findOne({ _id: data.userId }).populate(
           'rooms'
         );
-        const room = await Room.findOne({ _id: data.roomId }).populate('chats');
+        const room = await Room.findOne({
+          _id: data.roomId,
+          master: data.userId,
+        }).populate('chats');
         const inviteeUser = await User.findOne({ _id: room?.invitee });
 
         if (masterUser && inviteeUser) {
@@ -30,7 +34,8 @@ export default function handleCreateChat(socket: any) {
           await room?.save();
 
           socket.emit('CHAT_DELIVERED', {
-            roomId: room?.id,
+            userId: masterUser.id,
+            invitee: inviteeUser.id,
             room,
           });
         }

@@ -52,19 +52,17 @@ const User: FC = () => {
       }
     );
 
-    // TODO Fix State Null Issue
-    // io.on('CHAT_DELIVERED', (data: { roomId: string; room: RoomType }) => {
-    //   console.log('DATA > ', data);
-    //   console.log('STATE_ROOM > ', roomState);
-
-    //   // const foundRoom = rooms.find((r: { id: string }) => r.id === roomId);
-    //   // if (foundRoom) {
-    //   //   dispatch({
-    //   //     type: ActionTypes.AddChat,
-    //   //     payload: { chat: room.chats },
-    //   //   });
-    //   // }
-    // });
+    io.on(
+      'CHAT_DELIVERED',
+      (data: { userId: string; room: RoomType; invitee: string }) => {
+        if (user.id === data.userId || user.id === data.invitee) {
+          dispatch({
+            type: ActionTypes.SetSelectedChatRoom,
+            payload: data.room,
+          });
+        }
+      }
+    );
   }, [user.id, dispatch]);
 
   const handleChatSelection = useCallback(

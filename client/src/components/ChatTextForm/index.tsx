@@ -18,6 +18,7 @@ const ChatTextForm: FC = () => {
       text,
       senderId: user.id,
     });
+    setText('');
   };
 
   return (
