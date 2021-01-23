@@ -6,59 +6,14 @@ import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
 import logger from 'morgan';
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import 'express-async-errors';
 import * as socketio from 'socket.io';
-import User from './models/User';
 import ConnectDB from './configs/database';
 import RootAPIRoutes from './api/routes';
 import SocketIOServerConnection from './SocketIO';
 
 dotenv.config();
 const DEV = process.env.NODE_ENV !== 'production';
-
-passport.serializeUser((user: any, done: any) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id: any, done: any) => {
-  User.findById(id).then((user: any) => {
-    done(null, user);
-  });
-});
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      callbackURL: '/api/auth/google/callback',
-    },
-    (accessToken: any, refreshToken: any, profile: any, done: any) => {
-      // check if user already exists in our own db
-      User.findOne({ googleId: profile.id }).then((currentUser: any) => {
-        if (currentUser) {
-          // ? already have this user
-          console.log('user is: ', currentUser);
-          done(null, currentUser);
-        } else {
-          // ? if not, create user in our db
-          new User({
-            googleId: profile.id,
-            name: profile.displayName,
-            avatar: profile.photos[0].value,
-          })
-            .save()
-            .then((newUser: any) => {
-              console.log('created new user: ', newUser);
-              done(null, newUser);
-            });
-        }
-      });
-    }
-  )
-);
 
 const app = express();
 const server = new http.Server(app);
@@ -70,9 +25,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
-// initialize passport
-app.use(passport.initialize());
-app.use(passport.session());
 
 // ? Socket IO
 SocketIOServerConnection(io);
@@ -83,10 +35,10 @@ app.use('/api', RootAPIRoutes);
 // Serve static assets if in production
 if (!DEV) {
   // Set static folder
-  app.use(express.static('client/build'));
+  app.use(express.static('../client/build'));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve('client', 'build', 'index.html'));
+    res.sendFile(path.resolve('../', 'client', 'build', 'index.html'));
   });
 }
 
