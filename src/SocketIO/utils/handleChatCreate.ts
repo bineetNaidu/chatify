@@ -13,7 +13,6 @@ export default function handleCreateChat(socket: any) {
       text: string;
     }) => {
       try {
-        console.table(data);
         const masterUser = await User.findOne({ _id: data.userId }).populate(
           'rooms'
         );

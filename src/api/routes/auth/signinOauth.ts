@@ -7,8 +7,7 @@ router.post(
   '/google',
   // eslint-disable-next-line consistent-return
   async (req: Request, res: Response): Promise<any> => {
-    // eslint-disable-next-line object-curly-newline
-    const { googleId, name, avatar, status, online } = req.body;
+    const { googleId, name, avatar } = req.body;
 
     const userExist = await User.findOne({ googleId });
 
@@ -20,8 +19,7 @@ router.post(
       name,
       avatar,
       googleId,
-      status,
-      online,
+      online: true,
       blockedLists: [],
       rooms: [],
     });
