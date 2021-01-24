@@ -19,23 +19,10 @@ function App() {
     history.push('/user');
   });
 
-  const handleSignin = () => {
-    io.emit('USER_ACTIVE', { id: '6002de52ed0c5669101f1a40' });
-  };
-
   return (
     <>
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route
-          exact
-          path="/google"
-          render={() => (
-            <div>
-              <button onClick={handleSignin}>Signin</button>
-            </div>
-          )}
-        />
         {state.user !== null ? (
           <RoomStateProvider>
             <Route exact path="/user" component={UserOnBoardPage} />
