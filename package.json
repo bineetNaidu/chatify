@@ -6,6 +6,11 @@
       "packages/*"
     ]
   },
+  "engines": {
+    "node": ">=16.0.0",
+    "yarn": ">=1.22.0",
+    "npm": "please-use-yarn"
+  },
   "description": "A Chat Application",
   "main": "index.js",
   "repository": "git@github.com:bineetNaidu/chatify.git",
