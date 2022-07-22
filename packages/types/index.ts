@@ -1,10 +1,28 @@
-export type UserType = {
+export type Base = {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type UserType = Base & {
   username: string;
   password: string;
   email: string;
   avatar: string;
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type MessageType = Base & {
+  body: string;
+  author: UserType;
+};
+
+export type ChannelType = Base & {
+  name: string;
+  avatar?: string;
+  participants: UserType[];
+  messages: MessageType[];
 };
 
 export type AuthErrorType = {
