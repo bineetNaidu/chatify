@@ -5,7 +5,9 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
   Column,
+  OneToMany,
 } from 'typeorm';
+import { Channel } from './Channel';
 
 @Entity()
 export class User extends BaseEntity {
@@ -23,6 +25,9 @@ export class User extends BaseEntity {
 
   @Column()
   avatar!: string;
+
+  @OneToMany(() => Channel, (channel) => channel.participants)
+  channels: Channel[];
 
   @CreateDateColumn()
   createdAt: Date;
