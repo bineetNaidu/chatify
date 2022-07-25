@@ -9,20 +9,16 @@ export type UserType = Base & {
   password: string;
   email: string;
   avatar: string;
+  magicToken: string;
   createdAt: Date;
   updatedAt: Date;
 };
 
-export type MessageType = Base & {
-  body: string;
-  author: UserType;
-};
-
-export type ChannelType = Base & {
-  name: string;
-  avatar?: string;
-  participants: UserType[];
-  messages: MessageType[];
+export type ChatType = Base & {
+  message: string;
+  from: UserType;
+  to: UserType;
+  read: boolean;
 };
 
 export type AuthErrorType = {
@@ -30,7 +26,10 @@ export type AuthErrorType = {
   field: string;
 };
 
-export type RegisterBodyType = Omit<UserType, 'id' | 'createdAt' | 'updatedAt'>;
+export type RegisterBodyType = Omit<
+  UserType,
+  'id' | 'createdAt' | 'updatedAt' | 'magicToken'
+>;
 export type LoginBodyType = Pick<UserType, 'email' | 'password'>;
 
 export type AuthRegisterResponseType = {
@@ -44,3 +43,16 @@ export type AuthLoginResponseType = {
   token?: string;
   error?: AuthErrorType[];
 };
+
+type ListenEventsMap = {
+  '@join': (user: UserType) => void;
+};
+
+type EmitEventsMap = {
+  '@joined': (message: 'OK' | 'FAILED', user?: UserType) => void;
+};
+
+export type ServerListenEventsMap = ListenEventsMap;
+export type ServerEmitEventsMap = EmitEventsMap;
+export type ClientListenEventsMap = EmitEventsMap;
+export type ClientEmitEventsMap = ListenEventsMap;
