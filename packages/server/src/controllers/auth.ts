@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { hash, verify } from 'argon2';
-import { User } from '../entities/User';
+import { prisma } from '../lib/prisma.instance';
+import type { UserType } from '@chatify/types';
 import type {
   AuthLoginResponseType,
   RegisterBodyType,
@@ -15,7 +16,7 @@ export const register = async (
 ) => {
   const { username, password, email, avatar } = req.body;
 
-  const existingUser = await User.findOne({ where: { email } });
+  const existingUser = await prisma.user.findUnique({ where: { email } });
   if (existingUser) {
     return res.status(400).json({
       error: [
@@ -27,12 +28,15 @@ export const register = async (
     });
   }
 
-  const user = await User.create({
-    username,
-    password: await hash(password),
-    email,
-    avatar,
-  }).save();
+  const user = await prisma.user.create({
+    data: {
+      username,
+      password: await hash(password),
+      email,
+      avatar,
+    },
+  });
+
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
     expiresIn: '1d',
   });
@@ -44,7 +48,7 @@ export const login = async (
   res: Response<AuthLoginResponseType>
 ) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ where: { email } });
+  const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
     res
       .status(401)
@@ -65,15 +69,15 @@ export const login = async (
 };
 
 export const session = async (
-  req: Request<{}, User, {}>,
-  res: Response<User | {}>
+  req: Request<{}, UserType, {}>,
+  res: Response<UserType | {}>
 ) => {
   const token = req.headers.authorization!.split(' ')[1];
   const payload = jwt.verify(token, process.env.JWT_SECRET!) as {
     userId: number;
   };
 
-  const user = await User.findOne({
+  const user = await prisma.user.findUnique({
     where: {
       id: payload.userId,
     },
