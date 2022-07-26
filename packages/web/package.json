@@ -13,11 +13,13 @@
     "@chakra-ui/react": "^2.2.4",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "date-fns": "^2.29.1",
     "formik": "^2.2.9",
     "framer-motion": "^6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "socket.io-client": "^4.5.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.15",
