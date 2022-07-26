@@ -16,8 +16,10 @@ export type UserType = Base & {
 
 export type ChatType = Base & {
   message: string;
-  from: UserType;
-  to: UserType;
+  from?: UserType;
+  fromUserId: number;
+  to?: UserType;
+  toUserId: number;
   read: boolean;
 };
 
@@ -46,10 +48,16 @@ export type AuthLoginResponseType = {
 
 type ListenEventsMap = {
   '@join': (user: UserType) => void;
+  '@fetch:users': () => void;
+  '@fetch:user': (id: number) => void;
+  '@send:chat': (chat: Pick<ChatType, 'toUserId' | 'message'>) => void;
 };
 
 type EmitEventsMap = {
   '@joined': (message: 'OK' | 'FAILED', user?: UserType) => void;
+  '@users:fetched': (users: UserType[]) => void;
+  '@user:fetched': (user: UserType, chats: ChatType[]) => void;
+  '@chat:sent': (chat: ChatType) => void;
 };
 
 export type ServerListenEventsMap = ListenEventsMap;
