@@ -57,7 +57,7 @@ const ChatWindow: FC = () => {
       <Center borderBottom="1px dashed" pb="5">
         <Flex alignItems="center">
           <Avatar size="md" src={user.avatar} name={user.username} />
-          <Text>{user.username}</Text>
+          <Text ml="2">{user.username}</Text>
         </Flex>
       </Center>
       <Flex flexDirection="column" flex="1" px="4" my="4" overflowX="auto">

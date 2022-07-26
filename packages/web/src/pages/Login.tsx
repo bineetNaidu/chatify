@@ -45,7 +45,7 @@ const Login = () => {
             email: '',
             password: '',
           }}
-          onSubmit={async (values, { setSubmitting }) => {
+          onSubmit={async (values) => {
             const response = await fetch(
               'http://localhost:4242/api/auth/login',
               {
@@ -61,7 +61,7 @@ const Login = () => {
               localStorage.setItem('chatify:token', data.token);
               toast({
                 title: 'Success',
-                description: 'You have successfully registered!',
+                description: 'You have successfully Logged You in!',
                 status: 'success',
                 duration: 5000,
                 isClosable: true,
