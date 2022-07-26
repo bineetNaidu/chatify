@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useRef } from 'react';
 import { Flex, Avatar, Text, Box, Center } from '@chakra-ui/react';
-import { useInboxCtxValue } from '../contexts/inbox.context';
-import { ActionType } from '../contexts/inbox.types';
+import { useInboxCtxValue } from '../contexts/inbox/inbox.context';
+import { ActionType } from '../contexts/inbox/inbox.types';
 import { io } from '../lib/io.instance';
 
 const ChannelsList: FC = () => {

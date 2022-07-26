@@ -9,7 +9,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import type { ChatType, UserType } from '@chatify/types';
-import { useInboxCtxValue } from '../contexts/inbox.context';
+import { useInboxCtxValue } from '../contexts/inbox/inbox.context';
 import { io } from '../lib/io.instance';
 import { formatDistance, subDays } from 'date-fns';
 

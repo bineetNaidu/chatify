@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar';
 import { Grid, Box, GridItem } from '@chakra-ui/react';
 import { ChannelsList } from '../components/ChannelsList';
-import { InboxProvider } from '../contexts/inbox.context';
+import { InboxProvider } from '../contexts/inbox/inbox.context';
 import { ChatWindow } from '../components/ChatWindow';
 
 const Home = () => {
