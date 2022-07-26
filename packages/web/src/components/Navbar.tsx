@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import {
   Flex,
   Box,
@@ -9,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { Navigate, useLocation, Location, useNavigate } from 'react-router-dom';
 import { UserType } from '@chatify/types';
+import { io } from '../lib/io.instance';
 
 type LocationType = Location & {
   state: {
@@ -19,13 +21,21 @@ type LocationType = Location & {
 const Navbar = () => {
   const location = useLocation() as LocationType;
   const navigate = useNavigate();
+  const effectRef = useRef(0);
+
+  useEffect(() => {
+    if (location.state.authUser && effectRef.current === 0) {
+      io.emit('@join', location.state.authUser);
+      effectRef.current++;
+    }
+  }, []);
 
   const handleSignOut = () => {
     localStorage.removeItem('chatify:token');
     navigate('/login', { state: { authUser: null } });
   };
 
-  if (!location?.state?.authUser) {
+  if (!location.state?.authUser) {
     return <Navigate to="/login" replace state={{ authUser: null }} />;
   }
   return (
