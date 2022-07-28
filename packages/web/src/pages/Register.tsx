@@ -18,8 +18,11 @@ import {
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Formik, Form } from 'formik';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useAuthCtxValue } from '../contexts/auth/auth.context';
+import { AuthActionType } from '../contexts/auth/auth.types';
 
 const Register = () => {
+  const [, dispatch] = useAuthCtxValue();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
@@ -61,6 +64,10 @@ const Register = () => {
             const data = await response.json();
             if (response.ok && response.status === 201) {
               localStorage.setItem('chatify:token', data.token);
+              dispatch({
+                type: AuthActionType.SET_AUTH_USER,
+                payload: data.user,
+              });
               toast({
                 title: 'Success',
                 description: 'You have successfully registered!',
