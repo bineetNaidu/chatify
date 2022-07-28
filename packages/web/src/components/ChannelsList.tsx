@@ -11,7 +11,9 @@ const ChannelsList: FC = () => {
 
   useEffect(() => {
     if (effectRef.current === 0) {
-      io.emit('@fetch:users');
+      io.on('@joined', (msg) => {
+        if (msg === 'OK') io.emit('@fetch:users');
+      });
 
       io.on('@users:fetched', (users) => {
         dispatch({

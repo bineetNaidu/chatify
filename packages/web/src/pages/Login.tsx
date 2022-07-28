@@ -75,7 +75,7 @@ const Login = () => {
               });
               navigate('/', {
                 state: {
-                  authUser: data.user,
+                  token: data.token,
                 },
               });
             } else {

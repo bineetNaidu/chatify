@@ -77,7 +77,7 @@ const Register = () => {
               });
               navigate('/', {
                 state: {
-                  authUser: data.user,
+                  token: data.token,
                 },
               });
             } else {

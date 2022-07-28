@@ -1,43 +1,38 @@
-import { useEffect, useRef } from 'react';
 import {
-  Flex,
+  Avatar,
   Box,
+  Button,
+  Flex,
   Heading,
   Spacer,
-  Avatar,
   Text,
-  Button,
 } from '@chakra-ui/react';
-import { Navigate, useLocation, Location, useNavigate } from 'react-router-dom';
-import { UserType } from '@chatify/types';
+import { useEffect, useRef } from 'react';
+import { Location, useNavigate } from 'react-router-dom';
+import { useAuthCtxValue } from '../contexts/auth/auth.context';
+import { AuthActionType } from '../contexts/auth/auth.types';
 import { io } from '../lib/io.instance';
 
-type LocationType = Location & {
-  state: {
-    authUser: UserType | null;
-  };
-};
-
 const Navbar = () => {
-  const location = useLocation() as LocationType;
+  const [{ authUser }, dispatch] = useAuthCtxValue();
   const navigate = useNavigate();
   const effectRef = useRef(0);
 
   useEffect(() => {
-    if (location.state.authUser && effectRef.current === 0) {
-      io.emit('@join', location.state.authUser);
+    if (authUser && effectRef.current === 0) {
+      io.emit('@join', authUser);
       effectRef.current++;
     }
   }, []);
 
   const handleSignOut = () => {
     localStorage.removeItem('chatify:token');
-    navigate('/login', { state: { authUser: null } });
+    dispatch({
+      type: AuthActionType.RESET,
+    });
+    navigate('/login', { state: { token: null } });
   };
 
-  if (!location.state?.authUser) {
-    return <Navigate to="/login" replace state={{ authUser: null }} />;
-  }
   return (
     <Flex
       minWidth="max-content"
@@ -56,12 +51,8 @@ const Navbar = () => {
       <Spacer />
       <Box>
         <Button size="lg" onClick={handleSignOut}>
-          <Avatar
-            size="sm"
-            name={location.state.authUser.username}
-            src={location.state.authUser.avatar}
-          />
-          <Text ml="1">{location.state.authUser.username}</Text>
+          <Avatar size="sm" name={authUser?.username} src={authUser?.avatar} />
+          <Text ml="1">{authUser?.username}</Text>
         </Button>
       </Box>
     </Flex>
