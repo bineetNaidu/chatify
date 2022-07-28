@@ -1,5 +1,3 @@
 node_modules
-build
-*lock.json
 .env
-.ideas
+yarn*,log
